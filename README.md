@@ -4,19 +4,19 @@
 
 Simple and efficient way to create and manage Kubernetes clusters using k3d.
 
-## Who is this lab for?
+## 👤 Who is this lab for?
 
 For those who do not have a local environment with a large capacity. Such as creating multiple instances, whether VMs, cloud, etc.
 
 This repository provides scripts and documentation for setting up a Kubernetes cluster using K3d, tailored for CKA/CKAD practice.
 
-## Requirements
+## ⚙️ Requirements
 
 * [`curl`](https://curl.se/docs/tutorial.html) command
 * [Docker](https://docs.docker.com/engine/install/)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/)
 
-## K3d Installation
+## 🚢 K3d Installation
 
 To install `k3d`, run the following command:
 
