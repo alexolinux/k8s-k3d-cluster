@@ -52,7 +52,7 @@ This setup is ideal for mimicking a more robust, highly available Kubernetes env
 To create this cluster, run the following script:
 
 ```shell
-./scripts/create-ckad-cluster.sh
+./scripts/create-k3d-cluster.sh
 ```
 
 ### **Option B**: Lighter K3d Cluster
