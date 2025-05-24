@@ -2,7 +2,11 @@
 
 -----------------
 
-Simple and efficient way to create and manage Kubernetes clusters using k3d.
+A simple and efficient way to create and manage Kubernetes clusters using k3d.
+
+## What is k3d?
+
+**[K3d](https://k3d.io/)** is a lightweight wrapper that runs **[K3s](https://docs.k3s.io/)** in Docker.
 
 ## 👤 Who is this lab for?
 
