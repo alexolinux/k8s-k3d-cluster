@@ -44,7 +44,7 @@ if [ $? -eq 0 ]; then
   sleep 10 # Increased sleep to account for multiple servers coming up
 
   # Get all control plane node names dynamically
-  CONTROL_PLANE_NODES=$(kubectl get nodes -o jsonpath='{.items[?(@.metadata.labels.node-role\.kubernetes\.io/control-plane=="")].metadata.name}' | head -n 1)
+  CONTROL_PLANE_NODES=$(kubectl get nodes -l node-role.kubernetes.io/control-plane -o jsonpath='{.items[*].metadata.name}')
 
   if [ -z "$CONTROL_PLANE_NODES" ]; then
       echo "WARNING: Could not find any control plane nodes. Tainting skipped."
