@@ -57,6 +57,18 @@ To create this cluster, run the following script:
 
 ```shell
 ./scripts/create-k3d-cluster.sh
+
+Example:
+
+```output
+kubectl get nodes
+NAME                STATUS   ROLES                       AGE   VERSION
+k3d-ckad-server-0   Ready    control-plane,etcd,master   15m   v1.31.5+k3s1
+k3d-ckad-server-1   Ready    control-plane,etcd,master   15m   v1.31.5+k3s1
+k3d-ckad-server-2   Ready    control-plane,etcd,master   14m   v1.31.5+k3s1
+k3d-ckad-agent-0    Ready    <none>                      14m   v1.31.5+k3s1
+k3d-ckad-agent-1    Ready    <none>                      14m   v1.31.5+k3s1
+k3d-ckad-agent-2    Ready    <none>                      14m   v1.31.5+k3s1
 ```
 
 ### **Option B**: Lighter K3d Cluster
@@ -83,6 +95,32 @@ k3d-k8s-agent-0    Ready    <none>                 41s   v1.29.6+k3s2
 k3d-k8s-agent-1    Ready    <none>                 40s   v1.29.6+k3s2
 k3d-k8s-agent-2    Ready    <none>                 41s   v1.29.6+k3s2
 ```
+
+### Arguments
+
+* `--servers 3`
+
+This option specifies that the cluster should have 3 server nodes (control-plane). In Kubernetes, control-planes nodes are responsible for managing the cluster and running key services such as the API server, scheduler, and controller manager.
+
+* `--agents 3`
+
+This specifies that the cluster should have 3 agent nodes (also known as worker nodes). These are responsible for running the application workloads (Pods).
+
+* `--k3s-node-label topology.kubernetes.io/zone=zone-a@agent:*`
+
+This sets a Kubernetes node label on *each agent nodes*. The label topology.kubernetes.io/zone=zone-a helps identify that this agent is part of "zone-a". Labels can be used later for things like scheduling workloads to specific zones for availability.
+
+* `--api-port 6550`
+
+`--api-port $port` specifies that the Kubernetes API should be accessible via port 6550 on the host machine. If you want to interact with the cluster using kubectl or any other Kubernetes management tool, this is the port to use.
+
+* `-p "8000:80@loadbalancer"`
+
+This `-p` or `--port` sets up port forwarding from the host machine to the cluster. In this case, it's mapping port 80 on the host machine to port 80 on the load balancer node inside the k3d cluster. This is useful for exposing applications running in the cluster to the outside world.
+
+* `--volume "${HOME}/kubernetes/volume:/data@agent:*"`
+
+This mounts a volume from your local machine (${HOME}/kubernetes/volume) to the /data directory on all agent nodes (@agent:*). The * indicates that this volume should be mounted on all agent nodes. This is useful for sharing data between your host and the Kubernetes cluster's worker nodes.
 
 ### References
 
