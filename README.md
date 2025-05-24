@@ -40,7 +40,7 @@ K3d script will create the following directory, where your cluster can store per
 
 The script is designed to schedule deployments only on the worker nodes by tainting the control-plane(s).
 
-## Cluster Creation: Let's roll
+## K3d Cluster Creation: Let's roll
 
 ### **Option A**: Robust K3d Cluster
 
