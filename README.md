@@ -93,7 +93,7 @@ NAME               STATUS   ROLES                  AGE   VERSION
 k3d-k8s-server-0   Ready    control-plane,master   48s   v1.29.6+k3s2
 k3d-k8s-agent-0    Ready    <none>                 41s   v1.29.6+k3s2
 k3d-k8s-agent-1    Ready    <none>                 40s   v1.29.6+k3s2
-k3d-k8s-agent-2    Ready    <none>                 41s   v1.29.6+k3s2
+
 ```
 
 ### Arguments
