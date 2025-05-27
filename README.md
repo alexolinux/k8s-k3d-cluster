@@ -116,7 +116,7 @@ This sets a Kubernetes node label on *each agent nodes*. The label topology.kube
 
 * `-p "8000:80@loadbalancer"`
 
-This `-p` or `--port` sets up port forwarding from the host machine to the cluster. In this case, it's mapping port 80 on the host machine to port 80 on the load balancer node inside the k3d cluster. This is useful for exposing applications running in the cluster to the outside world.
+This `-p` or `--port` sets up port forwarding from the host machine to the cluster. In this case, it's mapping port 8000 on the host machine to port 80 on the load balancer node inside the k3d cluster. This is useful for exposing applications running in the cluster to the outside world. Feel free to change this port.
 
 * `--volume "${HOME}/kubernetes/volume:/data@agent:*"`
 
