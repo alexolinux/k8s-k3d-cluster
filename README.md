@@ -20,6 +20,8 @@ This repository provides scripts and documentation for setting up a Kubernetes c
 * [Docker](https://docs.docker.com/engine/install/)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/)
 
+🐧 To use [podman](https://podman.io/) instead of docker, see this [K3d Guide with Podman](https://k3d.io/v5.4.1/usage/advanced/podman/)
+
 ## 🚢 K3d Installation
 
 To install `k3d`, run the following command:
