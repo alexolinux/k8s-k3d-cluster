@@ -2,7 +2,36 @@
 
 set -e
 
-VOLUME_PATH="${HOME}/kubernetes/volume"
+setup_kube_environment() {
+    local KUBE="${HOME}/.kube"
+    local VOLUME_PATH="${KUBE}/data"
+    local KUBECONFIG="${KUBE}/config"
+    
+    if [[ ! -d "${KUBE}" ]]; then
+        echo "Creating ${KUBE} directory..."
+        mkdir -p "${KUBE}"
+    fi
+    
+    if [[ ! -d "${VOLUME_PATH}" ]]; then
+        echo "Creating ${VOLUME_PATH} directory..."
+        mkdir -p "${VOLUME_PATH}"
+    fi
+    
+    if [[ ! -f "${KUBECONFIG}" ]]; then
+        echo "Creating ${KUBECONFIG} file..."
+        touch "${KUBECONFIG}"
+        chmod 600 "${KUBECONFIG}"
+    fi
+    
+    echo "Kubernetes environment setup complete."
+}
+
+# Call the function
+setup_kube_environment
+
+KUBE="${HOME}/.kube"
+VOLUME_PATH="${KUBE}/data"
+KUBECONFIG="${KUBE}/config"
 SERVERS=1
 AGENTS=2
 API_PORT=6550
