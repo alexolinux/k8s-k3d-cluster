@@ -26,9 +26,6 @@ setup_kube_environment() {
     echo "Kubernetes environment setup complete."
 }
 
-# Call the function
-setup_kube_environment
-
 KUBE="${HOME}/.kube"
 VOLUME_PATH="${KUBE}/data"
 KUBECONFIG="${KUBE}/config"
@@ -44,11 +41,8 @@ if [ -z "${K3D_NAME}" ]; then
   exit 1
 fi
 
-echo "---"
-echo "Ensuring volume directory exists at: ${VOLUME_PATH}"
-mkdir -p "${VOLUME_PATH}"
-echo "Volume directory checked/created."
-echo "---"
+# Call the function
+setup_kube_environment
 
 echo "Creating ${K3D_NAME} cluster with ${SERVERS} server and ${AGENTS} agents..."
 echo "This might take a few moments..."
