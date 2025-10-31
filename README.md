@@ -39,7 +39,7 @@ Based on [k3d.io](https://k3d.io/stable/)
 K3d script will create the following directory, where your cluster can store persistent data *(you can change this directory of your choice by editing the script)*:
 
 ```shell
-"${HOME}/kubernetes/volume"
+"${HOME}/.kube/data"
 ```
 
 ### Taints and Tolerations
@@ -53,7 +53,7 @@ The script is designed to schedule deployments only on the worker nodes by taint
 This setup is ideal for mimicking a more robust, highly available Kubernetes environment. It includes multiple control plane nodes and worker nodes, perfect for practicing failovers and advanced scheduling. It creates:
 
 * 3 control-planes
-* 3 worker nodes
+* 2 worker nodes
 
 To create this cluster, run the following script:
 
@@ -65,12 +65,11 @@ Example:
 ```output
 kubectl get nodes
 NAME                STATUS   ROLES                       AGE   VERSION
-k3d-ckad-server-0   Ready    control-plane,etcd,master   15m   v1.31.5+k3s1
-k3d-ckad-server-1   Ready    control-plane,etcd,master   15m   v1.31.5+k3s1
-k3d-ckad-server-2   Ready    control-plane,etcd,master   14m   v1.31.5+k3s1
-k3d-ckad-agent-0    Ready    <none>                      14m   v1.31.5+k3s1
-k3d-ckad-agent-1    Ready    <none>                      14m   v1.31.5+k3s1
-k3d-ckad-agent-2    Ready    <none>                      14m   v1.31.5+k3s1
+k3d-ckad-agent-0    Ready    <none>                      38s   v1.31.5+k3s1
+k3d-ckad-agent-1    Ready    <none>                      38s   v1.31.5+k3s1
+k3d-ckad-server-0   Ready    control-plane,etcd,master   74s   v1.31.5+k3s1
+k3d-ckad-server-1   Ready    control-plane,etcd,master   59s   v1.31.5+k3s1
+k3d-ckad-server-2   Ready    control-plane,etcd,master   41s   v1.31.5+k3s1
 ```
 
 ### **Option B**: Lighter K3d Cluster
@@ -104,7 +103,7 @@ k3d-k8s-agent-1    Ready    <none>                 40s   v1.29.6+k3s2
 
 This option specifies that the cluster should have 3 server nodes (control-plane). In Kubernetes, control-planes nodes are responsible for managing the cluster and running key services such as the API server, scheduler, and controller manager.
 
-* `--agents 3`
+* `--agents 2`
 
 This specifies that the cluster should have 3 agent nodes (also known as worker nodes). These are responsible for running the application workloads (Pods).
 
@@ -120,7 +119,7 @@ This sets a Kubernetes node label on *each agent nodes*. The label topology.kube
 
 This `-p` or `--port` sets up port forwarding from the host machine to the cluster. In this case, it's mapping port 8000 on the host machine to port 80 on the load balancer node inside the k3d cluster. This is useful for exposing applications running in the cluster to the outside world. Feel free to change this port.
 
-* `--volume "${HOME}/kubernetes/volume:/data@agent:*"`
+* `--volume "${HOME}/.kube/data:/data@agent:*"`
 
 This mounts a volume from your local machine (${HOME}/kubernetes/volume) to the /data directory on all agent nodes (@agent:*). The * indicates that this volume should be mounted on all agent nodes. This is useful for sharing data between your host and the Kubernetes cluster's worker nodes.
 
