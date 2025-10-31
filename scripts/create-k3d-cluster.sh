@@ -65,33 +65,35 @@ k3d cluster create "${K3D_NAME}" \
 
 echo "---"
 if [ $? -eq 0 ]; then
-  echo "SUCCESS: K3d cluster '${K3D_NAME}' created successfully!"
-  echo "Now, tainting the control plane nodes to prevent them from running Pods."
+    echo "SUCCESS: K3d cluster '${K3D_NAME}' created successfully!"
+    echo "Now, tainting the control plane node to prevent it from running Pods."
 
-  # Give the cluster a moment to fully initialize the control plane nodes
-  echo "Waiting for control plane nodes to be ready..."
-  sleep 10 # Increased sleep to account for multiple servers coming up
+    # Give the cluster a moment to fully initialize the control plane node
+    echo "Waiting for control plane node to be ready..."
+    sleep 10
 
-  # Get all control plane node names dynamically
-  CONTROL_PLANE_NODES=$(kubectl get nodes -l node-role.kubernetes.io/control-plane -o jsonpath='{.items[*].metadata.name}')
+    # Get the control plane node name dynamically
+    CONTROL_PLANE_NODE=$(kubectl get nodes -l node-role.kubernetes.io/control-plane -o jsonpath='{.items[*].metadata.name}')
 
-  if [ -z "$CONTROL_PLANE_NODES" ]; then
-      echo "WARNING: Could not find any control plane nodes. Tainting skipped."
-  else
-      for NODE in ${CONTROL_PLANE_NODES}; do
-          echo "Tainting node: ${NODE}"
-          kubectl taint nodes "${NODE}" node-role.kubernetes.io/control-plane:NoSchedule
-          if [ $? -ne 0 ]; then
-              echo "WARNING: Failed to taint node '${NODE}'. Continuing with other nodes."
-          fi
-      done
-      echo "Control plane nodes tainted successfully."
-      echo "Your '${K3D_NAME}' cluster is now ready for use, with deployments preferentially scheduled on agent nodes."
-  fi
-  echo "Try: kubectl get nodes -o wide"
+    if [ -z "$CONTROL_PLANE_NODE" ]; then
+        echo "ERROR: Could not find the control plane node. Please check your cluster."
+        exit 1
+    fi
+
+    echo "Tainting node: ${CONTROL_PLANE_NODE}"
+    kubectl taint nodes "${CONTROL_PLANE_NODE}" node-role.kubernetes.io/control-plane:NoSchedule
+
+    if [ $? -eq 0 ]; then
+        echo "Control plane node '${CONTROL_PLANE_NODE}' tainted successfully."
+        echo "Your '${K3D_NAME}' cluster is now ready for use, with deployments scheduled only on agent nodes."
+        echo "Try: kubectl get nodes -o wide"
+    else
+        echo "ERROR: Failed to taint the control plane node."
+        exit 1
+    fi
 else
-  echo "ERROR: Failed to create K3d cluster '${K3D_NAME}'."
-  exit 1
+    echo "ERROR: Failed to create K3d cluster '${K3D_NAME}'."
+    exit 1
 fi
 
 echo "---"
