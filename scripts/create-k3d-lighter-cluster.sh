@@ -69,7 +69,7 @@ if [ $? -eq 0 ]; then
 
     # Give the cluster a moment to fully initialize the control plane node
     echo "Waiting for control plane node to be ready..."
-    sleep 5
+    sleep 10
 
     # Get the control plane node name dynamically
     CONTROL_PLANE_NODE=$(kubectl get nodes -l node-role.kubernetes.io/control-plane -o jsonpath='{.items[*].metadata.name}')
